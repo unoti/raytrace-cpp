@@ -5,6 +5,7 @@
 #include "color.h"
 #include "hittable_list.h"
 #include "sphere.h"
+#include "material.h"
 
 // Returns a simple gradient for the color of a ray.
 // The color is based on the Y value of where the ray points.
@@ -21,10 +22,11 @@ color ray_color(const ray& r, const hittable& world, int remaining_depth)
 	// Some rays hit very close to zero due to float approximations, so use a small nonzero value for min.
 	if (world.hit(r, 0.001, infinity, rec))
 	{
-		//*TODO: Consider using the alternative diffuse formulation, random_in_hemisphere().
-		point3 target = rec.p + rec.normal + vec3::random_in_unit_sphere();
-		ray bounced_ray = ray(rec.p, target - rec.p);
-		return 0.5 * ray_color(bounced_ray, world, remaining_depth-1);
+		ray scattered;
+		color attenuation;
+		if (rec.mat_ptr->scatter(r, rec, attenuation, scattered))
+			return attenuation * ray_color(scattered, world, remaining_depth - 1);
+		return color(0, 0, 0);
 	}
 
 	vec3 unit_direction = r.direction().unit_vector();
@@ -43,8 +45,15 @@ int main()
 
 	// World
 	hittable_list world;
-	world.add(make_shared<sphere>(point3(0, 0, -1), 0.5));
-	world.add(make_shared<sphere>(point3(0, -100.5, -1), 100));
+	auto material_ground = make_shared<lambertian>(color(0.8, 0.8, 0));
+	auto material_center = make_shared<lambertian>(color(0.7, 0.3, 0.3));
+	auto material_left = make_shared<metal>(color(0.8, 0.8, 0.8));
+	auto material_right = make_shared<metal>(color(0.8, 0.6, 0.2));
+
+	world.add(make_shared<sphere>(point3( 0, -100.5, -1), 100.0, material_ground));
+	world.add(make_shared<sphere>(point3( 0,    0.0, -1),   0.5, material_center));
+	world.add(make_shared<sphere>(point3(-1,    0.0, -1),   0.5, material_left));
+	world.add(make_shared<sphere>(point3( 1,    0.0, -1),   0.5, material_right));
 
 	// Camera
 	//*TODO: Consider refactoring this to move the random sampling to inside the camera.

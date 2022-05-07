@@ -1,6 +1,8 @@
 #pragma once
 
-#include "ray.h"
+#include "raytrace.h"
+
+class material; // So we know below that it's a pointer to a class.
 
 // Information about the intersection of a ray collision with something.
 struct hit_record
@@ -8,8 +10,9 @@ struct hit_record
 	//*TODO: these names are a bit too terse. Code readability legitimately suffers at usage sites e.g. in sphere::hit().
 	point3 p; // Where the ray intersected in world space.
 	vec3 normal; // The normal of the object we intersected at the point of collision.
+	shared_ptr<material> mat_ptr;
 	double t; // How long the ray was at the point of intersection.
-	bool front_face;
+	bool front_face; // True if this hits the front or outside of the object.
 
 	//*TODO: Not liking how this is a struct with a method that must/should be called on construction...
 	// Determine if we're hitting the front vs back, or outside face vs inside face.
