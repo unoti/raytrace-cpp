@@ -1,6 +1,7 @@
 #include <iostream>
 
 #include "raytrace.h"
+#include "camera.h"
 #include "color.h"
 #include "hittable_list.h"
 #include "sphere.h"
@@ -26,6 +27,7 @@ int main()
 	const double aspect_ratio = 16.0 / 9.0;
 	const int image_width = 400;
 	const int image_height = static_cast<int>(image_width / aspect_ratio);
+	const int samples_per_pixel = 100;
 
 	// World
 	hittable_list world;
@@ -33,14 +35,11 @@ int main()
 	world.add(make_shared<sphere>(point3(0, -100.5, -1), 100));
 
 	// Camera
-	const double viewport_height = 2.0;
-	const double viewport_width = aspect_ratio * viewport_height;
-	const double focal_length = 1.0;
-
-	point3 origin = point3(0, 0, 0);
-	vec3 horizontal = vec3(viewport_width, 0, 0); // Direction and size of viewport horizontally.
-	vec3 vertical = vec3(0, viewport_height, 0); // Direction and size of viewport vertically.
-	point3 lower_left_corner = origin - horizontal / 2 - vertical / 2 - vec3(0, 0, focal_length);
+	//*TODO: Consider refactoring this to move the random sampling to inside the camera.
+	//*TODO: Consider making the sampling be more methodical and less random, sampling various points.
+	//		 Theory is that we can sample certain points at fixed distances from the center, doing
+	//		 More effective work with say 16 points than we do with 100.
+	camera cam;
 
 	// Render
 	std::cout << "P3\n" << image_width << ' ' << image_height << "\n255\n";
@@ -50,12 +49,15 @@ int main()
 		std::cerr << "\rScanlines remaining: " << j << ' ' << std::flush;
 		for (int i = 0; i < image_width; i++) // x_pixel might be better
 		{
-			auto u = double(i) / (image_width - 1); // u: 0-1 horizontal position across viewport.
-			auto v = double(j) / (image_height - 1); // v: 0-1 vertical position across viewport.
-			ray r(origin, lower_left_corner + u * horizontal + v * vertical - origin);
-			color pixel_color = ray_color(r, world);
-
-			write_color(std::cout, pixel_color);
+			color pixel_color(0, 0, 0);
+			for (int s = 0; s < samples_per_pixel; s++)
+			{
+				auto u = (i + random_double()) / (image_width - 1);
+				auto v = (j + random_double()) / (image_height - 1);
+				ray r = cam.get_ray(u, v);
+				pixel_color += ray_color(r, world);
+			}
+			write_color(std::cout, pixel_color, samples_per_pixel);
 		}
 	}
 	std::cerr << "\nDone.\n";
