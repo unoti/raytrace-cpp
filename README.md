@@ -8,7 +8,6 @@ Ray Tracing in C++
 	* Use ideas you used to use regarding animated checkerboards, possibly the cubic spiral checkerboard with everysurface very reflective.
 	* Possibly several spheres moving in an animated recurring spiral pattern, using radial coords and a sine function for the radius
 
-
 ## About
 ### Camera Geometry
 This diagram describes the coordinate system, the camera strategy, the viewport,
@@ -25,7 +24,7 @@ Then go view the ppm file.
 1. [.] Go through all of *Ray Tracing in One Weekend*
 1. [ ] Take a peek at the next 2 Ray Tracing books, in case they give you ideas so good you want to change this plan
 1. [ ] Refactor it with easy to use abstractions and clean component decoupling, make it modular
-1. [ ] Add BMP output
+1. [ ] Add BMP output, or possibly something more compact so you can include the latest render in the readme.
 1. [ ] Animation. Select a good modern animated output format, and probably integrate a library for this
 1. [ ] Add SDL
 1. [ ] Add DearIMGUI
