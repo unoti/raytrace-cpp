@@ -31,3 +31,7 @@
 *.out
 *.app
 /.vs
+/raytrace/.vs/raytrace/v16
+/raytrace/raytrace.vcxproj
+/raytrace/raytrace.vcxproj.filters
+/raytrace/raytrace.vcxproj.user

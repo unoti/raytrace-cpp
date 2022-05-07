@@ -1,0 +1,2 @@
+D:\code\lab\raytrace-cpp\raytrace\Debug\raytrace.exe
+D:\code\lab\raytrace-cpp\raytrace\Debug\raytrace.pdb
