@@ -8,6 +8,12 @@ Ray Tracing in C++
 	* Use ideas you used to use regarding animated checkerboards, possibly the cubic spiral checkerboard with everysurface very reflective.
 	* Possibly several spheres moving in an animated recurring spiral pattern, using radial coords and a sine function for the radius
 
+## Running
+```
+release\raytrace > \tmp\x.ppm
+```
+Then go view the ppm file.
+
 ## Resources
 
 * *[Ray Tracing in One Weekend](https://raytracing.github.io/books/RayTracingInOneWeekend.html)*
