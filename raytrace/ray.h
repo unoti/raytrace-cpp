@@ -9,7 +9,8 @@
 	t is a real number that moves the point along the ray.
 	For positive t you get points in front of the ray.
 */
-class ray {
+class ray
+{
 	public:
 		ray() {}
 		ray(const point3& origin, const vec3& direction)

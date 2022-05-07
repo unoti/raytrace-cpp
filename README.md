@@ -42,6 +42,10 @@ These are questions I'd like to discuss with other C++ developers.
 	* This [C++ Style Guide](https://lefticus.gitbooks.io/cpp-best-practices/content/03-Style.html) seems to agree with me.
 	* [Google's C++ Style Guide](https://google.github.io/styleguide/cppguide.html#General_Naming_Rules) also suggests proper case for class names.
 * **Style guides.** The above style guide suggests `m_` prefixes for member variables. I can get down with that, although I don't like the `t_` prefix they recommend.  I need to read more code and review some different industry leader style guides and figure out what style I want to use.  It seems like there is a great deal of variety in styles used, and I don't see the same level of consensus in C++ style practice as compared with other languages I'm familiar with.  The Google style guide suggests a *trailing* underscore for member variables.
+	* How do we feel about writing code in header files, as was done in sphere.h?
+	* Decide if you want to use same line or new line braces
+	* Do we want `public:` and `private:` to be at zero indent?
+	* I feel like the code is over-using `auto` and it inhibits readability in some places.
 
 ## Resources
 
