@@ -1,7 +1,7 @@
 #pragma once
 
 #include "raytrace.h"
-#include "hittable.h"
+#include "worldobject.h"
 //struct hit_record;
 
 // A material produces a scattered ray, and if scattered, says how much the ray should be attenuated.

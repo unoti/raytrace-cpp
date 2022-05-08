@@ -3,28 +3,29 @@
 #include <memory>
 #include <vector>
 
-#include "hittable.h"
+#include "worldobject.h"
 
 using std::shared_ptr;
 using std::make_shared;
 
-class hittable_list : public hittable
+// The "World" is a collection of WorldObjects. It represents everything in the world.
+class World : public WorldObject
 {
 	public:
-		hittable_list() {}
-		hittable_list(shared_ptr<hittable> object) { add(object); }
+		World() {}
+		World(shared_ptr<WorldObject> object) { add(object); }
 
 		void clear() { objects.clear(); }
-		void add(shared_ptr<hittable> object) { objects.push_back(object); }
+		void add(shared_ptr<WorldObject> object) { objects.push_back(object); }
 
 		virtual bool hit(
 			const ray& r, double t_min, double t_max, hit_record& rec) const override;
 
 	public:
-		std::vector<shared_ptr<hittable>> objects;
+		std::vector<shared_ptr<WorldObject>> objects;
 };
 
-bool hittable_list::hit(const ray& r, double t_min, double t_max, hit_record& rec) const
+bool World::hit(const ray& r, double t_min, double t_max, hit_record& rec) const
 {
 	hit_record temp_rec;
 	bool hit_anything = false;

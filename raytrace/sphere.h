@@ -1,9 +1,9 @@
 #pragma once
 
-#include "hittable.h"
+#include "worldobject.h"
 #include "vec3.h"
 
-class sphere : public hittable {
+class sphere : public WorldObject {
 	public:
 		sphere() : radius(1) {}
 		sphere(point3 cen, double r, shared_ptr<material> m) : center(cen), radius(r), mat_ptr(m) {};

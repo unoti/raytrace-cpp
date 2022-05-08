@@ -64,3 +64,23 @@ These are questions I'd like to discuss with other C++ developers.
 ## Resources
 * [_Ray Tracing in One Weekend_](https://raytracing.github.io/books/RayTracingInOneWeekend.html)
 * [Nice looking C++ SDL Wrapper](https://github.com/libSDL2pp/libSDL2pp)
+
+## Refactoring
+* Camera
+* Scene
+	* It makes sense to bundle the list of world objects with the camera parameters,
+		because you want the camera looking at the objects in your world. They go together.
+	* hittable_list
+	* camera
+* OutputSurface(int width, int height) - receives one frame
+	* set_pixel(int x, int y, color color)
+	* PpmOutputSurface(const string& filename, int width, int height)
+		* constraint for now that we must output them in a specific sequence exactly once
+* OutputMedia() - receives multiple frames of output
+	* shared_ptr<OutputSurface> get_frame(int frame)
+	* PpmAnimatedMedia(int width, int height, string filename_base)
+* Renderer(scene, output_surface)
+* WorldAnimator: `shared_ptr<Scene> world_at_time(double t)`
+* StudioSession(world_animator, output_media)
+	* This strategy doesn't allow for camera animation, but I'm fine with that for now.
+	* Actually, if I define `Scene` as being both a hittable_list and a camera, then I *can* animate the camera if I need to.

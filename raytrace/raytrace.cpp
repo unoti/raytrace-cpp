@@ -3,13 +3,13 @@
 #include "raytrace.h"
 #include "camera.h"
 #include "color.h"
-#include "hittable_list.h"
+#include "world.h"
 #include "sphere.h"
 #include "material.h"
 
 // Returns a simple gradient for the color of a ray.
 // The color is based on the Y value of where the ray points.
-color ray_color(const ray& r, const hittable& world, int remaining_depth)
+color ray_color(const ray& r, const WorldObject& world, int remaining_depth)
 {
 	const color sky_color = color(0.5, 0.7, 1.0); // Sky Blue
 	//const color sky_color = color(1.0, 0.7, 0.5); // Dusk
@@ -34,23 +34,23 @@ color ray_color(const ray& r, const hittable& world, int remaining_depth)
 	return (1.0 - t) * color(1.0, 1.0, 1.0) + t * sky_color;
 }
 
-//hittable_list simple_scene()
-//{
-//	auto R = cos(pi / 4);
-//	hittable_list world;
-//
-//	auto material_ground = make_shared<lambertian>(color(0.8, 0.8, 0));
-//	auto material_center = make_shared<lambertian>(color(0.1, 0.2, 0.5));
-//	auto material_left = make_shared<dielectric>(1.5);
-//	auto material_right = make_shared<metal>(color(0.8, 0.6, 0.2), 0.0);
-//
-//	world.add(make_shared<sphere>(point3(0, -100.5, -1), 100.0, material_ground));
-//	world.add(make_shared<sphere>(point3(0, 0.0, -1), 0.5, material_center));
-//	world.add(make_shared<sphere>(point3(-1, 0.0, -1), 0.5, material_left));
-//	world.add(make_shared<sphere>(point3(-1, 0.0, -1), -0.45, material_left)); // Negative radius: hollow bubble. Normal points inward.
-//	world.add(make_shared<sphere>(point3(1, 0.0, -1), 0.5, material_right));
-//	return world;
-//}
+World simple_scene()
+{
+	auto R = cos(pi / 4);
+	World world;
+
+	auto material_ground = make_shared<lambertian>(color(0.8, 0.8, 0));
+	auto material_center = make_shared<lambertian>(color(0.1, 0.2, 0.5));
+	auto material_left = make_shared<dielectric>(1.5);
+	auto material_right = make_shared<metal>(color(0.8, 0.6, 0.2), 0.0);
+
+	world.add(make_shared<sphere>(point3(0, -100.5, -1), 100.0, material_ground));
+	world.add(make_shared<sphere>(point3(0, 0.0, -1), 0.5, material_center));
+	world.add(make_shared<sphere>(point3(-1, 0.0, -1), 0.5, material_left));
+	world.add(make_shared<sphere>(point3(-1, 0.0, -1), -0.45, material_left)); // Negative radius: hollow bubble. Normal points inward.
+	world.add(make_shared<sphere>(point3(1, 0.0, -1), 0.5, material_right));
+	return world;
+}
 
 shared_ptr<material> random_material()
 {
@@ -75,9 +75,9 @@ shared_ptr<material> random_material()
 	}
 }
 
-hittable_list random_scene()
+World random_scene()
 {
-	hittable_list world;
+	World world;
 
 	auto ground_material = make_shared<lambertian>(color(0.5, 0.5, 0.5));
 	world.add(make_shared<sphere>(point3(0, -1000, 0), 1000, ground_material));
@@ -109,13 +109,14 @@ int main()
 {
 	// Image
 	const double aspect_ratio = 16.0 / 9.0;
-	const int image_width = 400; // 1200;
+	const int image_width = 200;//400 // 1200;
 	const int image_height = static_cast<int>(image_width / aspect_ratio);
-	const int samples_per_pixel = 100; // 500;
+	const int samples_per_pixel = 10;// 100; // 500;
 	const int max_depth = 100; // Maximum number of light bounces.
 
 	// World
-	auto world = random_scene();
+	//auto world = random_scene();
+	auto world = simple_scene();
 
 	// Camera
 	//*TODO: Consider refactoring this to move the random sampling to inside the camera.
