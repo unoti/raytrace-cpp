@@ -2,7 +2,6 @@
 
 #include "raytrace.h"
 #include "worldobject.h"
-//struct hit_record;
 
 // A material produces a scattered ray, and if scattered, says how much the ray should be attenuated.
 // The material will tell us how rays interact with the surface of an object.
@@ -10,7 +9,7 @@ class Material
 {
 	public:
 		virtual bool scatter(
-			const ray& r_in, const hit_record& rec, Color& attenuation, ray& scattered
+			const Ray& r_in, const hit_record& rec, Color& attenuation, Ray& scattered
 		) const = 0;
 };
 
@@ -21,7 +20,7 @@ class Lambertian : public Material
 		Lambertian(const Color& a) : albedo(a) {}
 
 		virtual bool scatter(
-			const ray& r_in, const hit_record& rec, Color& attenuation, ray& scattered
+			const Ray& r_in, const hit_record& rec, Color& attenuation, Ray& scattered
 		) const override
 		{
 			auto scatter_direction = rec.normal + Vec3::random_unit_vector();
@@ -31,7 +30,7 @@ class Lambertian : public Material
 			if (scatter_direction.near_zero())
 				scatter_direction = rec.normal;
 
-			scattered = ray(rec.p, scatter_direction);
+			scattered = Ray(rec.p, scatter_direction);
 			attenuation = albedo;
 			return true;
 		}
@@ -45,11 +44,11 @@ class Metal : public Material
 		Metal(const Color& a, double fuzziness) : albedo(a), fuzz(fuzziness < 1 ? fuzziness : 1){}
 
 		virtual bool scatter(
-			const ray& r_in, const hit_record& rec, Color& attenuation, ray& scattered
+			const Ray& r_in, const hit_record& rec, Color& attenuation, Ray& scattered
 		) const override
 		{
 			Vec3 reflected = reflect(r_in.direction().unit_vector(), rec.normal);
-			scattered = ray(rec.p, reflected + fuzz * Vec3::random_in_unit_sphere());
+			scattered = Ray(rec.p, reflected + fuzz * Vec3::random_in_unit_sphere());
 			attenuation = albedo;
 			return (dot(scattered.direction(), rec.normal) > 0);
 		}
@@ -65,7 +64,7 @@ class Dielectric : public Material
 		Dielectric(double index_of_refraction) : ir(index_of_refraction) {}
 
 		virtual bool scatter(
-			const ray& r_in, const hit_record& rec, Color& attenuation, ray& scattered
+			const Ray& r_in, const hit_record& rec, Color& attenuation, Ray& scattered
 		) const
 		{
 			attenuation = Color(1.0, 1.0, 1.0); // Should this be a parameter/class property, like albedo?
@@ -84,7 +83,7 @@ class Dielectric : public Material
 			else
 				direction = refract(unit_direction, rec.normal, refraction_ratio);
 
-			scattered = ray(rec.p, direction);
+			scattered = Ray(rec.p, direction);
 			return true;
 		}
 

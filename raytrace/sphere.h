@@ -3,13 +3,13 @@
 #include "worldobject.h"
 #include "vec3.h"
 
-class sphere : public WorldObject {
+class Sphere : public WorldObject {
 	public:
-		sphere() : radius(1) {}
-		sphere(Point3 cen, double r, shared_ptr<Material> m) : center(cen), radius(r), mat_ptr(m) {};
+		Sphere() : radius(1) {}
+		Sphere(Point3 cen, double r, shared_ptr<Material> m) : center(cen), radius(r), mat_ptr(m) {};
 
 		virtual bool hit(
-			const ray& r, double t_min, double t_max, hit_record& rec) const override;
+			const Ray& r, double t_min, double t_max, hit_record& rec) const override;
 
 	public:
 		Point3 center;
@@ -17,7 +17,7 @@ class sphere : public WorldObject {
 		shared_ptr<Material> mat_ptr;
 };
 
-bool sphere::hit(const ray& r, double t_min, double t_max, hit_record& rec) const
+bool Sphere::hit(const Ray& r, double t_min, double t_max, hit_record& rec) const
 {
 	Vec3 oc = r.origin() - center; // Direction and length from origin to center of this sphere.
 	auto a = r.direction().length_squared();

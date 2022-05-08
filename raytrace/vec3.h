@@ -134,7 +134,7 @@ inline Vec3 operator/(Vec3 v, double t)
 	return (1 / t) * v;
 }
 
-//*TODO: I think I'd like it better if dot were a method or static class function instead of a global function.
+//*TODO: Would I like it better if dot were a method or static class function instead of a global function?
 inline double dot(const Vec3& u, const Vec3& v)
 {
 	return u.e[0] * v.e[0]

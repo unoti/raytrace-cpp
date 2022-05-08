@@ -16,7 +16,7 @@ struct hit_record
 
 	//*TODO: Not liking how this is a struct with a method that must/should be called on construction...
 	// Determine if we're hitting the front vs back, or outside face vs inside face.
-	inline void set_face_normal(const ray& r, const Vec3& outward_normal) {
+	inline void set_face_normal(const Ray& r, const Vec3& outward_normal) {
 		front_face = dot(r.direction(), outward_normal) < 0;
 		normal = front_face ? outward_normal : -outward_normal;
 	}
@@ -29,5 +29,5 @@ struct hit_record
 class WorldObject
 {
 	public:
-		virtual bool hit(const ray& r, double t_min, double t_max, hit_record& rec) const = 0;
+		virtual bool hit(const Ray& r, double t_min, double t_max, hit_record& rec) const = 0;
 };

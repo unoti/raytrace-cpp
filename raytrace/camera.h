@@ -2,10 +2,10 @@
 
 #include "raytrace.h"
 
-class camera
+class Camera
 {
 	public:
-		camera(
+		Camera(
 			Point3 look_from,
 			Point3 look_at,
 			Vec3 vup,
@@ -29,8 +29,8 @@ class camera
 			lower_left_corner = origin - horizontal / 2 - vertical / 2 - w;
 		}
 
-		ray get_ray(double u, double v) const {
-			return ray(origin, lower_left_corner + u * horizontal + v * vertical - origin);
+		Ray get_ray(double u, double v) const {
+			return Ray(origin, lower_left_corner + u * horizontal + v * vertical - origin);
 		}
 	
 	private:
