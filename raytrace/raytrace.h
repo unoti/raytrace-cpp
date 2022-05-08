@@ -37,7 +37,14 @@ inline double clamp(double x, double min, double max)
 	return x;
 }
 
+// Convert a double to a number from 0 to 255.
+//*TODO: Investigate why the colors look wrong when I use uint8_t here.
+inline int double_to_byte(double d)
+{
+	return static_cast<int>(255.999 * clamp(d, 0, 0.999));
+}
 
-// Default application includes
+// Default application includes.
+// These must go at the bottom after the foundational things above are defined.
 #include "ray.h"
 #include "vec3.h"

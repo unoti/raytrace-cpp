@@ -20,7 +20,7 @@ void write_color(std::ostream& out, Color pixel_color, int samples_per_pixel)
 	b = sqrt(scale * b);
 
 	// Write the translated [0,255] value of each color component.
-	out << static_cast<int>(255.999 * clamp(r, 0, 0.999)) << ' ' // *TODO: refactor this into double_to_byte()?
-		<< static_cast<int>(255.999 * clamp(g, 0, 0.999)) << ' ' // *TODO: might even just make a set of methods on vec3 that returns these as 0-255?
-		<< static_cast<int>(255.999 * clamp(b, 0, 0.999)) << '\n';
+	out << double_to_byte(r) << ' '
+		<< double_to_byte(g) << ' '
+		<< double_to_byte(b) << '\n';
 }
