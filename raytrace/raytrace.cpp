@@ -9,33 +9,6 @@
 #include "outputmedia.h"
 #include "renderer.h"
 
-//// Returns a simple gradient for the color of a ray.
-//// The color is based on the Y value of where the ray points.
-//Color ray_color(const Ray& r, const WorldObject& world, int remaining_depth)
-//{
-//	const Color sky_color = Color(0.5, 0.7, 1.0); // Sky Blue
-//	//const Color sky_color = Color(1.0, 0.7, 0.5); // Dusk
-//
-//	// If we've exceeded the bounce limit then no more light is gathered. Limits recursion depth.
-//	if (remaining_depth < 0)
-//		return Color(0, 0, 0);
-//
-//	hit_record rec;
-//	// Some rays hit very close to zero due to float approximations, so use a small nonzero value for min.
-//	if (world.hit(r, 0.001, infinity, rec))
-//	{
-//		Ray scattered;
-//		Color attenuation;
-//		if (rec.mat_ptr->scatter(r, rec, attenuation, scattered))
-//			return attenuation * ray_color(scattered, world, remaining_depth - 1);
-//		return Color(0, 0, 0);
-//	}
-//
-//	Vec3 unit_direction = r.direction().unit_vector();
-//	auto t = 0.5 * (unit_direction.y() + 1.0);
-//	return (1.0 - t) * Color(1.0, 1.0, 1.0) + t * sky_color;
-//}
-
 Scene simple_scene(double aspect_ratio)
 {
 	auto R = cos(pi / 4);
