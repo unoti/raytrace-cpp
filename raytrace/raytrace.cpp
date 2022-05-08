@@ -2,39 +2,39 @@
 
 #include "raytrace.h"
 #include "camera.h"
-#include "color.h"
 #include "world.h"
 #include "sphere.h"
 #include "material.h"
 #include "scene.h"
 #include "outputmedia.h"
+#include "renderer.h"
 
-// Returns a simple gradient for the color of a ray.
-// The color is based on the Y value of where the ray points.
-Color ray_color(const Ray& r, const WorldObject& world, int remaining_depth)
-{
-	const Color sky_color = Color(0.5, 0.7, 1.0); // Sky Blue
-	//const Color sky_color = Color(1.0, 0.7, 0.5); // Dusk
-
-	// If we've exceeded the bounce limit then no more light is gathered. Limits recursion depth.
-	if (remaining_depth < 0)
-		return Color(0, 0, 0);
-
-	hit_record rec;
-	// Some rays hit very close to zero due to float approximations, so use a small nonzero value for min.
-	if (world.hit(r, 0.001, infinity, rec))
-	{
-		Ray scattered;
-		Color attenuation;
-		if (rec.mat_ptr->scatter(r, rec, attenuation, scattered))
-			return attenuation * ray_color(scattered, world, remaining_depth - 1);
-		return Color(0, 0, 0);
-	}
-
-	Vec3 unit_direction = r.direction().unit_vector();
-	auto t = 0.5 * (unit_direction.y() + 1.0);
-	return (1.0 - t) * Color(1.0, 1.0, 1.0) + t * sky_color;
-}
+//// Returns a simple gradient for the color of a ray.
+//// The color is based on the Y value of where the ray points.
+//Color ray_color(const Ray& r, const WorldObject& world, int remaining_depth)
+//{
+//	const Color sky_color = Color(0.5, 0.7, 1.0); // Sky Blue
+//	//const Color sky_color = Color(1.0, 0.7, 0.5); // Dusk
+//
+//	// If we've exceeded the bounce limit then no more light is gathered. Limits recursion depth.
+//	if (remaining_depth < 0)
+//		return Color(0, 0, 0);
+//
+//	hit_record rec;
+//	// Some rays hit very close to zero due to float approximations, so use a small nonzero value for min.
+//	if (world.hit(r, 0.001, infinity, rec))
+//	{
+//		Ray scattered;
+//		Color attenuation;
+//		if (rec.mat_ptr->scatter(r, rec, attenuation, scattered))
+//			return attenuation * ray_color(scattered, world, remaining_depth - 1);
+//		return Color(0, 0, 0);
+//	}
+//
+//	Vec3 unit_direction = r.direction().unit_vector();
+//	auto t = 0.5 * (unit_direction.y() + 1.0);
+//	return (1.0 - t) * Color(1.0, 1.0, 1.0) + t * sky_color;
+//}
 
 Scene simple_scene(double aspect_ratio)
 {
@@ -126,7 +126,7 @@ int main()
 {
 	// Image
 	const double aspect_ratio = 16.0 / 9.0;
-	const int image_width = 200;//400 // 1200;
+	const int image_width = 200; //400 // 1200;
 	const int image_height = static_cast<int>(image_width / aspect_ratio);
 	const int samples_per_pixel = 10;// 100; // 500;
 	const int max_depth = 100; // Maximum number of light bounces.
@@ -140,22 +140,8 @@ int main()
 	PpmOutputSurface surface = PpmOutputSurface(image_width, image_height, "/tmp/raytrace.ppm");
 
 	// Render
-	for (int j = image_height - 1; j >= 0; j--)	// y_pixel might be better
-	{
-		std::cerr << "\rScanlines remaining: " << j << ' ' << std::flush;
-		for (int i = 0; i < image_width; i++) // x_pixel might be better
-		{
-			Color pixel_color(0, 0, 0);
-			for (int s = 0; s < samples_per_pixel; s++)
-			{
-				auto u = (i + random_double()) / (static_cast<double>(image_width) - 1);
-				auto v = (j + random_double()) / (static_cast<double>(image_height) - 1);
-				Ray r = scene.camera->get_ray(u, v);
-				pixel_color += ray_color(r, *scene.world, max_depth);
-			}
-			color_correct(pixel_color, samples_per_pixel);
-			surface.set_pixel(i, j, pixel_color);
-		}
-	}
+	Renderer renderer = Renderer(samples_per_pixel, max_depth);
+	renderer.render_frame(scene, surface);
+
 	std::cerr << "\nDone.\n";
 }

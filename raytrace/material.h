@@ -1,7 +1,8 @@
 #pragma once
 
 #include "raytrace.h"
-#include "worldobject.h"
+#include "vec3.h"
+#include "ray.h"
 
 // A material produces a scattered ray, and if scattered, says how much the ray should be attenuated.
 // The material will tell us how rays interact with the surface of an object.
@@ -11,6 +12,24 @@ class Material
 		virtual bool scatter(
 			const Ray& r_in, const hit_record& rec, Color& attenuation, Ray& scattered
 		) const = 0;
+};
+
+// Information about the intersection of a ray collision with something.
+struct hit_record
+{
+	//*TODO: these names are a bit too terse. Code readability legitimately suffers at usage sites e.g. in sphere::hit().
+	Point3 p; // Where the ray intersected in world space.
+	Vec3 normal; // The normal of the object we intersected at the point of collision.
+	shared_ptr<Material> mat_ptr;
+	double t = 0.0; // How long the ray was at the point of intersection.
+	bool front_face = false; // True if this hits the front or outside of the object.
+
+	//*TODO: Not liking how this is a struct with a method that must/should be called on construction...
+	// Determine if we're hitting the front vs back, or outside face vs inside face.
+	inline void set_face_normal(const Ray& r, const Vec3& outward_normal) {
+		front_face = dot(r.direction(), outward_normal) < 0;
+		normal = front_face ? outward_normal : -outward_normal;
+	}
 };
 
 // A diffuse material.

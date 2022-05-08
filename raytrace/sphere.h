@@ -2,6 +2,7 @@
 
 #include "worldobject.h"
 #include "vec3.h"
+#include "material.h"
 
 class Sphere : public WorldObject {
 	public:

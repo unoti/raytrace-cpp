@@ -43,8 +43,3 @@ inline int double_to_byte(double d)
 {
 	return static_cast<int>(255.999 * clamp(d, 0, 0.999));
 }
-
-// Default application includes.
-// These must go at the bottom after the foundational things above are defined.
-#include "ray.h"
-#include "vec3.h"
