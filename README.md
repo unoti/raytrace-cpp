@@ -66,11 +66,11 @@ These are questions I'd like to discuss with other C++ developers.
 * [Nice looking C++ SDL Wrapper](https://github.com/libSDL2pp/libSDL2pp)
 
 ## Refactoring
-* Camera
-* Scene
+* [x] Camera
+* [x] Scene
 	* It makes sense to bundle the list of world objects with the camera parameters,
 		because you want the camera looking at the objects in your world. They go together.
-	* hittable_list
+	* hittable_list -> World
 	* camera
 * OutputSurface(int width, int height) - receives one frame
 	* set_pixel(int x, int y, color color)
