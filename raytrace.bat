@@ -1,3 +1,2 @@
-del \tmp\raytrace.ppm
-raytrace\release\raytrace.exe > \tmp\raytrace.ppm
+raytrace\release\raytrace.exe
 start \tmp\raytrace.ppm

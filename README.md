@@ -72,15 +72,15 @@ These are questions I'd like to discuss with other C++ developers.
 		because you want the camera looking at the objects in your world. They go together.
 	* hittable_list -> World
 	* camera
-* OutputSurface(int width, int height) - receives one frame
+* [x] OutputSurface(int width, int height) - receives one frame
 	* set_pixel(int x, int y, color color)
 	* PpmOutputSurface(const string& filename, int width, int height)
 		* constraint for now that we must output them in a specific sequence exactly once
-* OutputMedia() - receives multiple frames of output
+* [ ] OutputMedia() - receives multiple frames of output
 	* shared_ptr<OutputSurface> get_frame(int frame)
 	* PpmAnimatedMedia(int width, int height, string filename_base)
-* Renderer(scene, output_surface)
-* WorldAnimator: `shared_ptr<Scene> world_at_time(double t)`
-* StudioSession(world_animator, output_media)
+* [ ] Renderer(scene, output_surface)
+* [ ] WorldAnimator: `shared_ptr<Scene> scene_at_time(double t)`
+* [ ] StudioSession(world_animator, output_media)
 	* This strategy doesn't allow for camera animation, but I'm fine with that for now.
 	* Actually, if I define `Scene` as being both a hittable_list and a camera, then I *can* animate the camera if I need to.

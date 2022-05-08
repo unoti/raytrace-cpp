@@ -7,6 +7,7 @@
 #include "sphere.h"
 #include "material.h"
 #include "scene.h"
+#include "outputmedia.h"
 
 // Returns a simple gradient for the color of a ray.
 // The color is based on the Y value of where the ray points.
@@ -51,10 +52,11 @@ Scene simple_scene(double aspect_ratio)
 	world->add(make_shared<Sphere>(Point3(-1, 0.0, -1), -0.45, material_left)); // Negative radius: hollow bubble. Normal points inward.
 	world->add(make_shared<Sphere>(Point3(1, 0.0, -1), 0.5, material_right));
 
-	const Point3 look_from = Point3(13, 2, 3);
-	const Point3 look_at = Point3(0, 0, 0);
+	//const Point3 look_from = Point3(13, 2, 3);
+	const Point3 look_from = Point3(2, 1, -5);
+	const Point3 look_at = Point3(0,0,0);
 	const Vec3 v_up = Vec3(0, 1, 0);
-	const double field_of_view = 20;
+	const double field_of_view = 25;
 	auto cam = make_shared<Camera>(look_from, look_at, v_up, field_of_view, aspect_ratio);
 
 	return Scene(world, cam);
@@ -130,11 +132,15 @@ int main()
 	const int max_depth = 100; // Maximum number of light bounces.
 
 	// Scene
-	//Scene scene = simple_scene(aspect_ratio);
-	Scene scene = random_scene(aspect_ratio);
+	Scene scene = simple_scene(aspect_ratio);
+	//Scene scene = random_scene(aspect_ratio);
+
+	// Output
+	//*TODO: do a better job with output file location handling. When you do, update the bat file as well.
+	PpmOutputSurface surface = PpmOutputSurface(image_width, image_height, "/tmp/raytrace.ppm");
 
 	// Render
-	std::cout << "P3\n" << image_width << ' ' << image_height << "\n255\n";
+	//std::cout << "P3\n" << image_width << ' ' << image_height << "\n255\n";
 
 	for (int j = image_height - 1; j >= 0; j--)	// y_pixel might be better
 	{
@@ -149,7 +155,8 @@ int main()
 				Ray r = scene.camera->get_ray(u, v);
 				pixel_color += ray_color(r, *scene.world, max_depth);
 			}
-			write_color(std::cout, pixel_color, samples_per_pixel);
+			color_correct(pixel_color, samples_per_pixel);
+			surface.set_pixel(i, j, pixel_color);
 		}
 	}
 	std::cerr << "\nDone.\n";
