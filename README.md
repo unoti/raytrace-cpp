@@ -26,7 +26,8 @@ Then go view the ppm file.
 	* Motion blur- within a single frame, what it looks like when the objects are moving while you take a snapshot
 	* Perlin noise, textures, smoke, other features such as caustics
 	* Good lighting effects, square objects
-1. [.] Save a branch here, in case I want to follow along with the next book.
+1. [x] Save a branch here, in case I want to follow along with the next book.
+	* Saved branch rt1w as a checkpoint of where I was at the end of *Ray Tracing in One Weekend* before going off in my own directions.  This way I can come back here when I want to experiment with their ideas, in case I have trouble integrating their new ideas with my new future codebase.
 1. [ ] Push towards animation. Animation prototype:
 	1. Make cleaner abstractions that output a single frame to a specified filename.
 	1. Make a simple animated render as a prototype, that outputs N frames.
