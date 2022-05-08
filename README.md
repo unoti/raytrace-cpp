@@ -48,5 +48,4 @@ These are questions I'd like to discuss with other C++ developers.
 	* I feel like the code is over-using `auto` and it inhibits readability in some places.
 
 ## Resources
-
-* *[Ray Tracing in One Weekend](https://raytracing.github.io/books/RayTracingInOneWeekend.html)*
+* [_Ray Tracing in One Weekend_](https://raytracing.github.io/books/RayTracingInOneWeekend.html)
