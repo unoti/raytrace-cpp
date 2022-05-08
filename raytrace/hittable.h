@@ -12,7 +12,7 @@ struct hit_record
 	vec3 normal; // The normal of the object we intersected at the point of collision.
 	shared_ptr<material> mat_ptr;
 	double t; // How long the ray was at the point of intersection.
-	bool front_face; // True if this hits the front or outside of the object.
+	bool front_face = false; // True if this hits the front or outside of the object.
 
 	//*TODO: Not liking how this is a struct with a method that must/should be called on construction...
 	// Determine if we're hitting the front vs back, or outside face vs inside face.

@@ -41,18 +41,19 @@ int main()
 	const int image_width = 400;
 	const int image_height = static_cast<int>(image_width / aspect_ratio);
 	const int samples_per_pixel = 100;
-	const int max_depth = 50; // Maximum number of light bounces.
+	const int max_depth = 100; // Maximum number of light bounces.
 
 	// World
 	hittable_list world;
 	auto material_ground = make_shared<lambertian>(color(0.8, 0.8, 0));
-	auto material_center = make_shared<lambertian>(color(0.7, 0.3, 0.3));
-	auto material_left = make_shared<metal>(color(0.8, 0.8, 0.8));
-	auto material_right = make_shared<metal>(color(0.8, 0.6, 0.2));
+	auto material_center = make_shared<lambertian>(color(0.1, 0.2, 0.5));
+	auto material_left = make_shared<dielectric>(1.5);
+	auto material_right = make_shared<metal>(color(0.8, 0.6, 0.2), 0.0);
 
 	world.add(make_shared<sphere>(point3( 0, -100.5, -1), 100.0, material_ground));
 	world.add(make_shared<sphere>(point3( 0,    0.0, -1),   0.5, material_center));
 	world.add(make_shared<sphere>(point3(-1,    0.0, -1),   0.5, material_left));
+	world.add(make_shared<sphere>(point3(-1,    0.0, -1),  -0.4, material_left)); // Negative radius: hollow bubble. Normal points inward.
 	world.add(make_shared<sphere>(point3( 1,    0.0, -1),   0.5, material_right));
 
 	// Camera
@@ -70,8 +71,8 @@ int main()
 			color pixel_color(0, 0, 0);
 			for (int s = 0; s < samples_per_pixel; s++)
 			{
-				auto u = (i + random_double()) / (image_width - 1);
-				auto v = (j + random_double()) / (image_height - 1);
+				auto u = (i + random_double()) / (static_cast<double>(image_width) - 1);
+				auto v = (j + random_double()) / (static_cast<double>(image_height) - 1);
 				ray r = cam.get_ray(u, v);
 				pixel_color += ray_color(r, world, max_depth);
 			}

@@ -157,3 +157,13 @@ inline vec3 vec3::unit_vector() const
 vec3 reflect(const vec3& v, const vec3& n) {
 	return v - 2 * dot(v, n) * n;
 }
+
+// Refract a ray.
+// refraction_ratio, or erai divided by etat.
+vec3 refract(const vec3& uv, const vec3& n, double refraction_ratio)
+{
+	auto cos_theta = fmin(dot(-uv, n), 1.0);
+	vec3 r_out_perp = refraction_ratio * (uv + cos_theta * n);
+	vec3 r_out_parallel = -sqrt(fabs(1.0 - r_out_perp.length_squared())) * n;
+	return r_out_perp + r_out_parallel;
+}
