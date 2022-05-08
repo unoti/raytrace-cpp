@@ -44,3 +44,16 @@ class PpmOutputSurface : public OutputSurface
 		ofstream file;
 };
 
+class PpmOutputMedia : public OutputMedia
+{
+	public:
+		PpmOutputMedia(int t_width, int t_height, string t_filename_base)
+			: OutputMedia{}, filename_base{ t_filename_base }, width{ t_width }, height{t_height} {}
+
+		shared_ptr<OutputSurface> get_frame(int frame) override;
+
+	private:
+		string filename_base;
+		int width;
+		int height;
+};

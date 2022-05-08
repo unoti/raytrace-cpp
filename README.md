@@ -76,7 +76,7 @@ These are questions I'd like to discuss with other C++ developers.
 	* set_pixel(int x, int y, color color)
 	* PpmOutputSurface(const string& filename, int width, int height)
 		* constraint for now that we must output them in a specific sequence exactly once
-* [ ] OutputMedia() - receives multiple frames of output
+* [x] OutputMedia() - receives multiple frames of output
 	* shared_ptr<OutputSurface> get_frame(int frame)
 	* PpmAnimatedMedia(int width, int height, string filename_base)
 * [x] Renderer(scene, output_surface)

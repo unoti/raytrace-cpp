@@ -110,11 +110,12 @@ int main()
 
 	// Output
 	//*TODO: do a better job with output file location handling. When you do, update the bat file as well.
-	PpmOutputSurface surface = PpmOutputSurface(image_width, image_height, "/tmp/raytrace.ppm");
+	PpmOutputMedia output_media = PpmOutputMedia(image_width, image_height, "/tmp/raytrace");
+	auto surface = output_media.get_frame(0);
 
 	// Render
 	Renderer renderer = Renderer(samples_per_pixel, max_depth);
-	renderer.render_frame(scene, surface);
+	renderer.render_frame(scene, *surface);
 
 	std::cerr << "\nDone.\n";
 }
