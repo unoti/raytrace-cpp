@@ -32,19 +32,15 @@ class OutputMedia
 class PpmOutputSurface : public OutputSurface
 {
 	public:
-		PpmOutputSurface(int t_width, int t_height, string t_filename)
-			: OutputSurface{ t_width, t_height }, file{t_filename, ios::out}
+		PpmOutputSurface(int t_width, int t_height, string t_filename) : OutputSurface{ t_width, t_height }, file{ t_filename, ios::out }
 		{
 			file << "P3\n" << width << ' ' << height << "\n255\n";
 		}
+			
 
-		void set_pixel(int x, int y, const Color c) override
-		{
-			file << double_to_byte(c.x()) << ' '
-				 << double_to_byte(c.y()) << ' '
-				 << double_to_byte(c.z()) << '\n';
-		}
+		void set_pixel(int x, int y, const Color c) override;
 
 	private:
 		ofstream file;
 };
+

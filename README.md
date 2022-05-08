@@ -79,7 +79,7 @@ These are questions I'd like to discuss with other C++ developers.
 * [ ] OutputMedia() - receives multiple frames of output
 	* shared_ptr<OutputSurface> get_frame(int frame)
 	* PpmAnimatedMedia(int width, int height, string filename_base)
-* [ ] Renderer(scene, output_surface)
+* [x] Renderer(scene, output_surface)
 * [ ] WorldAnimator: `shared_ptr<Scene> scene_at_time(double t)`
 * [ ] StudioSession(world_animator, output_media)
 	* This strategy doesn't allow for camera animation, but I'm fine with that for now.
