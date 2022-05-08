@@ -21,12 +21,25 @@ release\raytrace > \tmp\x.ppm
 Then go view the ppm file.
 
 ## Plan
-1. [.] Go through all of *Ray Tracing in One Weekend*
-1. [ ] Take a peek at the next 2 Ray Tracing books, in case they give you ideas so good you want to change this plan
+1. [x] Go through all of *Ray Tracing in One Weekend*
+1. [x] Take a peek at the next 2 Ray Tracing books, in case they give you ideas so good you want to change this plan. Ideas in there:
+	* Motion blur- within a single frame, what it looks like when the objects are moving while you take a snapshot
+	* Perlin noise, textures, smoke, other features such as caustics
+	* Good lighting effects, square objects
+1. [.] Save a branch here, in case I want to follow along with the next book.
+1. [ ] Push towards animation. Animation prototype:
+	1. Make cleaner abstractions that output a single frame to a specified filename.
+	1. Make a simple animated render as a prototype, that outputs N frames.
+	1. Stitch the frames together using ffmpeg
+1. [ ] Prototype your animations and formulas, perhaps using python or Processing
+1. [ ] Make a low quality preview of your animation in c++
+1. [ ] Make a final render and stitch it together with ffmeg.
+
+Maybe later:
 1. [ ] Refactor it with easy to use abstractions and clean component decoupling, make it modular
 1. [ ] Add BMP output, or possibly something more compact so you can include the latest render in the readme.
 1. [ ] Animation. Select a good modern animated output format, and probably integrate a library for this
-1. [ ] Add SDL
+1. [ ] Add SDL. **Actually** consider using Walnut for both Vulcan + DearIMGUI integrated into a single app. See *TheCherno*.
 1. [ ] Add DearIMGUI
 
 ## Ideas
@@ -49,3 +62,4 @@ These are questions I'd like to discuss with other C++ developers.
 
 ## Resources
 * [_Ray Tracing in One Weekend_](https://raytracing.github.io/books/RayTracingInOneWeekend.html)
+* [Nice looking C++ SDL Wrapper](https://github.com/libSDL2pp/libSDL2pp)
