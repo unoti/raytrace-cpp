@@ -6,9 +6,9 @@ class camera
 {
 	public:
 		camera(
-			point3 look_from,
-			point3 look_at,
-			vec3 vup,
+			Point3 look_from,
+			Point3 look_at,
+			Vec3 vup,
 			double vertical_fov_degrees,
 			double aspect_ratio
 		) {
@@ -34,8 +34,8 @@ class camera
 		}
 	
 	private:
-		point3 origin;
-		point3 lower_left_corner;
-		vec3 horizontal;
-		vec3 vertical;
+		Point3 origin;
+		Point3 lower_left_corner;
+		Vec3 horizontal;
+		Vec3 vertical;
 };

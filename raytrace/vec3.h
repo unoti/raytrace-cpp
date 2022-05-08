@@ -7,21 +7,21 @@
 
 using std::sqrt;
 
-class vec3
+class Vec3
 {
 	public:
-		vec3() : e{ 0,0,0 } {}
-		vec3(double e0, double e1, double e2) : e{ e0, e1, e2 } {}
+		Vec3() : e{ 0,0,0 } {}
+		Vec3(double e0, double e1, double e2) : e{ e0, e1, e2 } {}
 
 		double x() const { return e[0]; }
 		double y() const { return e[1]; }
 		double z() const { return e[2]; }
 
-		vec3 operator-() const { return vec3(-e[0], -e[1], -e[2]); }
+		Vec3 operator-() const { return Vec3(-e[0], -e[1], -e[2]); }
 		double operator[] (int i) const { return e[i]; }
 		double& operator[](int i) { return e[i]; }
 
-		vec3& operator+=(const vec3& v)
+		Vec3& operator+=(const Vec3& v)
 		{
 			e[0] += v.e[0];
 			e[1] += v.e[1];
@@ -29,14 +29,14 @@ class vec3
 			return *this;
 		}
 
-		vec3& operator*=(const double t)
+		Vec3& operator*=(const double t)
 		{
 			e[0] *= t;
 			e[1] *= t;
 			e[2] *= t;
 		}
 
-		vec3& operator/=(const double t)
+		Vec3& operator/=(const double t)
 		{
 			return *this *= 1 / t;
 		}
@@ -51,7 +51,7 @@ class vec3
 			return e[0] * e[0] + e[1] * e[1] + e[2] * e[2];
 		}
 
-		inline vec3 unit_vector() const;
+		inline Vec3 unit_vector() const;
 
 		// Return true if the vector is close to zero in all dimensions.
 		bool near_zero() const {
@@ -59,22 +59,22 @@ class vec3
 			return (fabs(e[0]) < s) && (fabs(e[1]) < s) && (fabs(e[2]) < s);
 		}
 
-		inline static vec3 random()
+		inline static Vec3 random()
 		{
-			return vec3(random_double(), random_double(), random_double());
+			return Vec3(random_double(), random_double(), random_double());
 		}
 
-		inline static vec3 random(double min, double max)
+		inline static Vec3 random(double min, double max)
 		{
-			return vec3(random_double(min, max), random_double(min, max), random_double(min, max));
+			return Vec3(random_double(min, max), random_double(min, max), random_double(min, max));
 		}
 
 		// Returns a random unit vector that is somewhere within the unit sphere.
-		static vec3 random_in_unit_sphere()
+		static Vec3 random_in_unit_sphere()
 		{
 			while (true)
 			{
-				vec3 v = vec3::random(-1, 1);
+				Vec3 v = Vec3::random(-1, 1);
 				if (v.length_squared() >= 1)
 					continue;
 				return v;
@@ -82,9 +82,9 @@ class vec3
 		}
 
 		// True Lambertian - returns a random unit vector with a smooth distribution.
-		static vec3 random_unit_vector()
+		static Vec3 random_unit_vector()
 		{
-			return vec3::random_in_unit_sphere().unit_vector();
+			return Vec3::random_in_unit_sphere().unit_vector();
 		}
 
 	public:
@@ -94,76 +94,76 @@ class vec3
 // Type aliases for vec3.
 // Maybe later we'll want to use more typesafe aliases for colors and points.
 // But for now, we're going for less code is better.
-using point3 = vec3; // 3d point
-using color = vec3; // rgb color.
+using Point3 = Vec3; // 3d point
+using Color = Vec3; // rgb color.
 
 // Utility functions
 
-inline std::ostream& operator<<(std::ostream& out, const vec3& v)
+inline std::ostream& operator<<(std::ostream& out, const Vec3& v)
 {
 	return out << v.e[0] << ' ' << v.e[1] << ' ' << v.e[2];
 }
 
-inline vec3 operator+(const vec3& u, const vec3& v)
+inline Vec3 operator+(const Vec3& u, const Vec3& v)
 {
-	return vec3(u.e[0] + v.e[0], u.e[1] + v.e[1], u.e[2] + v.e[2]);
+	return Vec3(u.e[0] + v.e[0], u.e[1] + v.e[1], u.e[2] + v.e[2]);
 }
 
-inline vec3 operator-(const vec3& u, const vec3& v)
+inline Vec3 operator-(const Vec3& u, const Vec3& v)
 {
-	return vec3(u.e[0] - v.e[0], u.e[1] - v.e[1], u.e[2] - v.e[2]);
+	return Vec3(u.e[0] - v.e[0], u.e[1] - v.e[1], u.e[2] - v.e[2]);
 }
 
-inline vec3 operator*(const vec3& u, const vec3& v)
+inline Vec3 operator*(const Vec3& u, const Vec3& v)
 {
-	return vec3(u.e[0] * v.e[0], u.e[1] * v.e[1], u.e[2] * v.e[2]);
+	return Vec3(u.e[0] * v.e[0], u.e[1] * v.e[1], u.e[2] * v.e[2]);
 }
 
-inline vec3 operator*(const vec3& u, double t)
+inline Vec3 operator*(const Vec3& u, double t)
 {
-	return vec3(u.e[0] * t, u.e[1] * t, u.e[2] * t);
+	return Vec3(u.e[0] * t, u.e[1] * t, u.e[2] * t);
 }
 
-inline vec3 operator*(double t, const vec3& v)
+inline Vec3 operator*(double t, const Vec3& v)
 {
 	return v * t;
 }
 
-inline vec3 operator/(vec3 v, double t)
+inline Vec3 operator/(Vec3 v, double t)
 {
 	return (1 / t) * v;
 }
 
 //*TODO: I think I'd like it better if dot were a method or static class function instead of a global function.
-inline double dot(const vec3& u, const vec3& v)
+inline double dot(const Vec3& u, const Vec3& v)
 {
 	return u.e[0] * v.e[0]
 		 + u.e[1] * v.e[1]
 		 + u.e[2] * v.e[2];
 }
 
-inline vec3 cross(const vec3& u, const vec3& v)
+inline Vec3 cross(const Vec3& u, const Vec3& v)
 {
-	return vec3(u.e[1] * v.e[2] - u.e[2] * v.e[1],
+	return Vec3(u.e[1] * v.e[2] - u.e[2] * v.e[1],
 				u.e[2] * v.e[0] - u.e[0] * v.e[2],
 				u.e[0] * v.e[1] - u.e[1] * v.e[0]);
 }
 
-inline vec3 vec3::unit_vector() const
+inline Vec3 Vec3::unit_vector() const
 {
 	return *this / length();
 }
 
-vec3 reflect(const vec3& v, const vec3& n) {
+Vec3 reflect(const Vec3& v, const Vec3& n) {
 	return v - 2 * dot(v, n) * n;
 }
 
 // Refract a ray.
 // refraction_ratio, or erai divided by etat.
-vec3 refract(const vec3& uv, const vec3& n, double refraction_ratio)
+Vec3 refract(const Vec3& uv, const Vec3& n, double refraction_ratio)
 {
 	auto cos_theta = fmin(dot(-uv, n), 1.0);
-	vec3 r_out_perp = refraction_ratio * (uv + cos_theta * n);
-	vec3 r_out_parallel = -sqrt(fabs(1.0 - r_out_perp.length_squared())) * n;
+	Vec3 r_out_perp = refraction_ratio * (uv + cos_theta * n);
+	Vec3 r_out_parallel = -sqrt(fabs(1.0 - r_out_perp.length_squared())) * n;
 	return r_out_perp + r_out_parallel;
 }

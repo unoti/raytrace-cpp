@@ -13,17 +13,17 @@ class ray
 {
 	public:
 		ray() {}
-		ray(const point3& origin, const vec3& direction)
+		ray(const Point3& origin, const Vec3& direction)
 			: orig(origin), dir(direction) {} // this uses the compiler-generated default copy constructor?
 
-		point3 origin() const { return orig; }
-		vec3 direction() const { return dir; }
+		Point3 origin() const { return orig; }
+		Vec3 direction() const { return dir; }
 
-		point3 at(double t) const {
+		Point3 at(double t) const {
 			return orig + t * dir;
 		}
 
 	public:
-		point3 orig;
-		vec3 dir;
+		Point3 orig;
+		Vec3 dir;
 };
