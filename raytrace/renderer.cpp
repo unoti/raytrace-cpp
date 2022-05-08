@@ -46,21 +46,22 @@ void Renderer::render_frame(const Scene& scene, OutputSurface& surface)
 	double width_denom = static_cast<double>(surface.width) - 1;
 	double height_denom = static_cast<double>(surface.height) - 1;
 
-	for (int j = surface.height - 1; j >= 0; j--)	// y_pixel might be better
+	for (int y_pixel = surface.height - 1; y_pixel >= 0; y_pixel--)
 	{
-		std::cerr << "\rScanlines remaining: " << j << ' ' << std::flush;
-		for (int i = 0; i < surface.width; i++) // x_pixel might be better
+		std::cerr << "\rScanlines remaining: " << y_pixel << ' ' << std::flush;
+		for (int x_pixel = 0; x_pixel < surface.width; x_pixel++)
 		{
-			Color pixel_color(0, 0, 0);
+			// Sample each pixel many times.  Randomness will give us slightly difference bounces.
+			Color pixel_color(0, 0, 0); // We will accumulate the sum of the colors here.
 			for (int s = 0; s < samples_per_pixel; s++)
 			{
-				auto u = (i + random_double()) / width_denom;
-				auto v = (j + random_double()) / height_denom;
+				auto u = (x_pixel + random_double()) / width_denom;
+				auto v = (y_pixel + random_double()) / height_denom;
 				Ray r = scene.camera->get_ray(u, v);
 				pixel_color += ray_color(r, *scene.world, max_depth);
 			}
-			color_correct(pixel_color);
-			surface.set_pixel(i, j, pixel_color);
+			color_correct(pixel_color); // Average the samples together and gamma correct.
+			surface.set_pixel(x_pixel, y_pixel, pixel_color);
 		}
 	}
 }
