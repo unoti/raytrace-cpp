@@ -6,6 +6,9 @@ class camera
 {
 	public:
 		camera(
+			point3 look_from,
+			point3 look_at,
+			vec3 vup,
 			double vertical_fov_degrees,
 			double aspect_ratio
 		) {
@@ -14,12 +17,16 @@ class camera
 			auto viewport_height = 2.0 * h;
 			auto viewport_width = aspect_ratio * viewport_height;
 
-			auto focal_length = 1.0;
+			// u, v, w together form an orthonormal basis to describe the camera's
+			// orientation along the look_from - look_at vector.
+			auto w = (look_from - look_at).unit_vector();
+			auto u = cross(vup, w).unit_vector();
+			auto v = cross(w, u);
 
-			origin = point3(0, 0, 0);
-			horizontal = vec3(viewport_width, 0, 0);
-			vertical = vec3(0, viewport_height, 0);
-			lower_left_corner = origin - horizontal / 2 - vertical / 2 - vec3(0, 0, focal_length);
+			origin = look_from;
+			horizontal = viewport_width * u;
+			vertical = viewport_height * v;
+			lower_left_corner = origin - horizontal / 2 - vertical / 2 - w;
 		}
 
 		ray get_ray(double u, double v) const {
