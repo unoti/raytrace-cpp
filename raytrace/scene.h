@@ -52,11 +52,12 @@ class AnimatedScene1 : public Scene
 		void set_time(double t) override
 		{
 			t /= static_cast<double>(moving_sphere_count); // The position of each sphere leads into the next one.
-			const int radius = 1;
 			double theta = 2 * pi * t;
 			double a_offset = 2 * pi / moving_sphere_count;
 			for (int i = 0; i < moving_sphere_count; i++)
 			{
+				double radius = 1;
+
 				double a = theta + a_offset * i; // Base angle for this sphere.
 				spheres[i]->center = Point3(
 					radius * cos(a),

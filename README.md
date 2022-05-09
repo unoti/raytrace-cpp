@@ -33,11 +33,12 @@ Then go view the ppm file.
 	* Good lighting effects, square objects
 1. [x] Save a branch here, in case I want to follow along with the next book.
 	* Saved branch rt1w as a checkpoint of where I was at the end of *Ray Tracing in One Weekend* before going off in my own directions.  This way I can come back here when I want to experiment with their ideas, in case I have trouble integrating their new ideas with my new future codebase.
-1. [ ] Push towards animation. Animation prototype:
-	1. Make cleaner abstractions that output a single frame to a specified filename.
-	1. Make a simple animated render as a prototype, that outputs N frames.
-	1. Stitch the frames together using ffmpeg
-1. [ ] Prototype your animations and formulas, perhaps using python or Processing
+1. [x] Push towards animation. Animation prototype:
+	1. [x] Make cleaner abstractions that output a single frame to a specified filename.
+	1. [x] Make a simple animated render as a prototype, that outputs N frames.
+	1. [x] Stitch the frames together using ffmpeg
+1. [.] Prototype your animations and formulas, perhaps using python or Processing
+	* Working on the animation formulas in [Processing Prototype: p5.js](https://editor.p5js.org/unoti2/sketches/QoNLSZfa7)
 1. [ ] Make a low quality preview of your animation in c++
 1. [ ] Make a final render and stitch it together with ffmeg.
 
