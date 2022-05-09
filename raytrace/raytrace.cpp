@@ -11,7 +11,6 @@
 
 Scene simple_scene(double aspect_ratio)
 {
-	auto R = cos(pi / 4);
 	auto world = make_shared<World>();
 
 	auto material_ground = make_shared<Lambertian>(Color(0.8, 0.8, 0));
@@ -105,17 +104,26 @@ int main()
 	const int max_depth = 100; // Maximum number of light bounces.
 
 	// Scene
-	Scene scene = simple_scene(aspect_ratio);
+	//Scene scene = simple_scene(aspect_ratio);
 	//Scene scene = random_scene(aspect_ratio);
+	AnimatedScene1 scene = AnimatedScene1(aspect_ratio);
 
 	// Output
 	//*TODO: do a better job with output file location handling. When you do, update the bat file as well.
-	PpmOutputMedia output_media = PpmOutputMedia(image_width, image_height, "/tmp/raytrace");
-	auto surface = output_media.get_frame(0);
+	PpmOutputMedia output_media = PpmOutputMedia(image_width, image_height, "/tmp/raytrace/raytrace");
 
 	// Render
 	Renderer renderer = Renderer(samples_per_pixel, max_depth);
-	renderer.render_frame(scene, *surface);
+
+	const int frame_count = 8;
+	for (int frame = 0; frame < frame_count; frame++)
+	{
+		std::cerr << "Frame " << frame << endl;
+
+		auto surface = output_media.get_frame(frame);
+		scene.set_time(static_cast<double>(frame) * 2 * pi / (static_cast<double>(frame_count) + 1) / 5.0);
+		renderer.render_frame(scene, *surface);
+	}
 
 	std::cerr << "\nDone.\n";
 }
