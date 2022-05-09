@@ -8,6 +8,11 @@ Ray Tracing in C++
 	* Use ideas you used to use regarding animated checkerboards, possibly the cubic spiral checkerboard with everysurface very reflective.
 	* Possibly several spheres moving in an animated recurring spiral pattern, using radial coords and a sine function for the radius
 
+## Latest
+This image reflects the latest progress snapshot:
+
+![Latest Animated Raytrace Image](doc/img/raytrace-latest.gif)
+
 ## About
 ### Camera Geometry
 This diagram describes the coordinate system, the camera strategy, the viewport,
@@ -80,7 +85,9 @@ These are questions I'd like to discuss with other C++ developers.
 	* shared_ptr<OutputSurface> get_frame(int frame)
 	* PpmAnimatedMedia(int width, int height, string filename_base)
 * [x] Renderer(scene, output_surface)
-* [ ] WorldAnimator: `shared_ptr<Scene> scene_at_time(double t)`
-* [ ] StudioSession(world_animator, output_media)
+* [x] WorldAnimator: `shared_ptr<Scene> scene_at_time(double t)`
+* [x] StudioSession(world_animator, output_media)
 	* This strategy doesn't allow for camera animation, but I'm fine with that for now.
 	* Actually, if I define `Scene` as being both a hittable_list and a camera, then I *can* animate the camera if I need to.
+* [ ] Enable quality settings to be grouped together, so I can easily switch the settings all at once
+	* image width, samples_per_pixel, frame_count

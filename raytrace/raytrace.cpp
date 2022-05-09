@@ -100,7 +100,7 @@ int main()
 	const double aspect_ratio = 16.0 / 9.0;
 	const int image_width = 800; //200; 400 // 1200;
 	const int image_height = static_cast<int>(image_width / aspect_ratio);
-	const int samples_per_pixel = 100;// 10;// 100; // 500;
+	const int samples_per_pixel = 300;// 10;// 100; // 500;
 	const int max_depth = 100; // Maximum number of light bounces.
 
 	// Scene
@@ -121,10 +121,12 @@ int main()
 		std::cerr << "Frame " << frame << endl;
 		// The +1 on the frame count is because we want a looping animation,
 		// where the last frame leads back to the zeroth frame.
+		//*TODO: Pretty sure I don't need the second static_cast below.
 		double t = static_cast<double>(frame) / (static_cast<double>(frame_count) + 1);
 		auto surface = output_media.get_frame(frame);
 		scene.set_time(t);
 		renderer.render_frame(scene, *surface);
+		std::cerr << endl;
 	}
 
 	std::cerr << "\nDone.\n";
